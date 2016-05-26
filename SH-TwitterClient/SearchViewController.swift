@@ -33,42 +33,10 @@ class SearchViewController: UIViewController, UITableViewDataSource, UITableView
         if trends.count >= 1{
             return
         }
-        let req = TwitterAccess.generateRequest("trends/place", isPostMethod: false, params: ["id":"1118370"])
-        let handler: SLRequestHandler = { postResponseData, urlResponse, error in
-            // リクエスト送信エラー発生時
-            if let requestError = error {
-                print("Request Error: An error occurred while requesting: \(requestError)")
-                // インジケータ停止
-                ThreadAction.stopProcessing()
-                return
-            }
-            
-            // httpエラー発生時
-            if urlResponse.statusCode < 200 || urlResponse.statusCode >= 300 {
-                print("HTTP Error: The response status code is \(urlResponse.statusCode)")
-                //** インジケータ停止
-                ThreadAction.stopProcessing()
-                return
-            }
-            
-            // JSONシリアライズ
-            do{
-                let timeLineArray = try NSJSONSerialization.JSONObjectWithData(postResponseData,options: .AllowFragments) as? [AnyObject] ?? []
-                //print(timeLineArray)
-                self.trends.appendContentsOf(self.parseJSON(timeLineArray))
-                // JSONシリアライズエラー発生時
-            } catch (let jsonError) {
-                print("JSON Error: \(jsonError)")
-                //** インジケータ停止
-                ThreadAction.stopProcessing()
-                return
-            }
-            // インジケータ停止
-            ThreadAction.stopProcessing()
-        }
-        req.account = account
-        ThreadAction.startProcessing()
-        req.performRequestWithHandler(handler)
+        TwitterAccess.getAction(self, api: "trends/place", isPostMethod: false, params: ["id":"1118370"], successCode: { (_,obj) in
+            let array = obj as? [AnyObject] ?? []
+            self.trends.appendContentsOf(self.parseJSON(array))
+        })
     }
 
     func requestTwitter(isMax: Bool, id: String) {

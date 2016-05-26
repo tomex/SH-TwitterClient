@@ -29,7 +29,6 @@ class FavoriteTableViewController:TimeLineTableViewController{
         self.statuses.removeAll()
         self.tableView.reloadData()
         self.timelineLoad(["count":"20"])
-        super.requestTwitter()
     }
     
     override func requestTwitter(isMax:Bool,id:String){

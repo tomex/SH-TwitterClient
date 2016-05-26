@@ -54,67 +54,24 @@ class TweetViewController: UIViewController,UIImagePickerControllerDelegate,UINa
         var errors = [String]()
         
         if self.images.count >= 1 {
-            let imageUrl = NSURL(string: "")
-
-            let runsImage = {
-                if (errors.count + imageIds.count) >= self.images.count {
-                    self.tweetOnImageId(imageIds.joinWithSeparator(","))
-                }
-            }
-            
-            let imageHandler: SLRequestHandler = { postResponseData, urlResponse, error in
-                
-                // リクエスト送信エラー発生時
-                if let requestError = error {
-                    let code = "Request Error: An error occurred while requesting: \(requestError)"
-                    errors.append(code)
-                    print(code)
-                    runsImage()
-                    return
-                }
-                
-                // httpエラー発生時
-                if urlResponse.statusCode < 200 || urlResponse.statusCode >= 300 {
-                    let code = "HTTP Error: The response status code is \(urlResponse.statusCode)"
-                    errors.append(code)
-                    print(code)
-                    runsImage()
-                    return
-                }
-                    // JSONシリアライズ
-                let objectFromJSON: AnyObject
-                do {
-                    objectFromJSON = try NSJSONSerialization.JSONObjectWithData(
-                        postResponseData,
-                        options: NSJSONReadingOptions.MutableContainers)
-                    
-                    // JSONシリアライズエラー発生時
-                } catch (let jsonError) {
-                    let code = "JSON Error: \(jsonError)"
-                    errors.append(code)
-                    print(code)
-                    return
-                }
-                let imageId = objectFromJSON["media_id_string"] as? String ?? ""
-                // Tweet成功
-                print("SUCCESS! Created Image with ID: %@", imageId)
-                imageIds.append(imageId)
-                
-                runsImage()
-            }
             for image in self.images {
-                let imageRequest = SLRequest(forServiceType: SLServiceTypeTwitter,
-                    requestMethod: SLRequestMethod.POST,
-                    URL: imageUrl,
-                    parameters: [:])
-                let imageData = UIImageJPEGRepresentation(image,0.85)
-                imageRequest.addMultipartData(imageData,
-                    withName: "media",
-                    type: "multipart/form-data",
-                    filename: "image.jpg")
-                imageRequest.account = self.account
-                ThreadAction.startProcessing()
-                imageRequest.performRequestWithHandler(imageHandler)
+                let runsImage = {
+                    if (errors.count + imageIds.count) >= self.images.count {
+                        self.tweetOnImageId(imageIds.joinWithSeparator(","))
+                    }
+                }
+                TwitterAccess.getAction(self, api: "https://upload.twitter.com/1.1/media/upload.json", isPostMethod: true, params: [:], successCode: { (_,obj) in
+                        let imageId = obj["media_id_string"] as? String ?? ""
+                        print("SUCCESS! Created Image with ID: %@", imageId)
+                        imageIds.append(imageId)
+                        runsImage()
+                    },errors: { (str:String) in
+                        errors.append(str)
+                    },prepare: { (req:SLRequest) in
+                        let imageData = UIImageJPEGRepresentation(image,0.85)
+                        req.addMultipartData(imageData, withName: "media", type: "multipart/form-data", filename: "image.jpg")
+                    }
+                )
             }
         }else{
             self.tweetOnImageId("")
@@ -123,53 +80,15 @@ class TweetViewController: UIViewController,UIImagePickerControllerDelegate,UINa
     
     private func tweetOnImageId(imageIds:String){
         let tweetString = tweetTextView.text
-        let url = NSURL(string: "https://api.twitter.com/1.1/statuses/update.json")
         let params:[String:String]
         if imageIds != "" {
             params = ["status" : tweetString,"media_ids" : imageIds, "in_reply_to_status_id":replyToId ]
         }else{
             params = ["status" : tweetString,"in_reply_to_status_id":replyToId]
         }
-        let request = SLRequest(forServiceType: SLServiceTypeTwitter,
-                                requestMethod: SLRequestMethod.POST,
-                                URL: url,
-                                parameters: params)
-        // リクエストハンドラ作成
-        let handler: SLRequestHandler = { postResponseData, urlResponse, error in
-            
-            // リクエスト送信エラー発生時
-            if let requestError = error {
-                print("Request Error: An error occurred while requesting: \(requestError)")
-                // インジケータ停止
-                ThreadAction.stopProcessing()
-                return
-            }
-            
-            // httpエラー発生時
-            if urlResponse.statusCode < 200 || urlResponse.statusCode >= 300 {
-                print("HTTP Error: The response status code is \(urlResponse.statusCode)")
-                //** インジケータ停止
-                ThreadAction.stopProcessing()
-                return
-            }
-            
-            // JSONシリアライズ
-            let objectFromJSON: AnyObject
-            do {
-                objectFromJSON = try NSJSONSerialization.JSONObjectWithData(
-                    postResponseData,
-                    options: NSJSONReadingOptions.MutableContainers)
-                
-                // JSONシリアライズエラー発生時
-            } catch (let jsonError) {
-                print("JSON Error: \(jsonError)")
-                //** インジケータ停止
-                ThreadAction.stopProcessing()
-                return
-            }
-            
+        TwitterAccess.getAction(self, api: "statuses/update", isPostMethod: true, params: params, successCode: {(_,obj) in
             // Tweet成功
-            print("SUCCESS! Created Tweet with ID: %@", objectFromJSON["id_str"] as! String)
+            print("SUCCESS! Created Tweet with ID: %@", obj["id_str"] as! String)
             // インジケータ停止
             ThreadAction.stopProcessing()
             ThreadAction.mainThread{
@@ -177,16 +96,7 @@ class TweetViewController: UIViewController,UIImagePickerControllerDelegate,UINa
                 self.images.removeAll()
                 self.refreshImages()
             }
-        }
-        
-        //** アカウント情報セット
-        request.account = self.account
-        
-        //** インジケータ開始
-        ThreadAction.startProcessing()
-        
-        //** リクエスト実行
-        request.performRequestWithHandler(handler)
+        })
     }
     
     @IBAction func accountSelect() {

@@ -56,8 +56,6 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
         exportFormatter.locale = NSLocale(localeIdentifier: "ja_JP")
         exportFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
         
-//        self.tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0);
-        
         tableView.alwaysBounceVertical = true
         
         self.tableView.registerNib(UINib(nibName: tableViewCellName, bundle: nil), forCellReuseIdentifier: tableViewCellName)
@@ -67,25 +65,10 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
         
         userStream = Setting.get("userstream_preference") as? Bool ?? false
         
-//        if !userStream || self as? SearchTableViewController != nil || self as? UserTimeLineTableViewController != nil {
-//            refreshControl = UIRefreshControl()
-//            refreshControl?.addTarget(self, action: #selector(TimeLineTableViewController.refreshTableView), forControlEvents: UIControlEvents.ValueChanged)
-        //        }else{
         session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: self, delegateQueue: nil)
         
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(TimeLineTableViewController.refreshTableView), forControlEvents: UIControlEvents.ValueChanged)
-//        self.navigationController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_signal_wifi_off"), style: .Plain, target: self, action: #selector(TimeLineTableViewController.onClickUserStream))
-//        }else{
-            //NSURLConnection connectionWithRequest:request.preparedURLRequest delegate:self];
-            //[self.connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-            //[self.connection start];
-        //}
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
     func userStreamRequest() {
@@ -192,24 +175,31 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
     func requestTwitter(isMax: Bool, id: String) {
         
     }
-    func timelineLoad(params:[NSObject:AnyObject]){
+    func timelineLoad(params:[String:AnyObject]){
         self.timelineLoad(params,insert: true)
     }
     
-    func timelineLoad(params:[NSObject:AnyObject],insert:Bool){
-        let request = TwitterAccess.generateRequest(api, isPostMethod:false, params: params)
-        
-        //** リクエストハンドラ作成
-        let handler = generateRequestHandler(insert,isSearch: api.containsString("search/"))
-        
-        //** アカウント情報セット
-        request.account = account
-        
-        //** インジケータ開始
-        ThreadAction.startProcessing()
-        
-        //** リクエスト実行
-        request.performRequestWithHandler(handler)
+    func timelineLoad(params:[String:AnyObject],insert:Bool){
+        let isSearch = api.containsString("search/")
+        TwitterAccess.getAction(self, api: api, isPostMethod: false, params: params, successCode: { (_,objectFromJSON) in
+            let array:[AnyObject]
+            if isSearch {
+                let search = objectFromJSON as? [String:AnyObject] ?? [:]
+                array = search["statuses"] as? [AnyObject] ?? []
+            }else{
+                array = objectFromJSON as? [AnyObject] ?? []
+            }
+            do{
+                let statuses = try self.parseJSON(array)
+                if insert{
+                    self.statuses.insertContentsOf(statuses,at: 0)
+                }else{
+                    self.statuses.appendContentsOf(statuses)
+                }
+            }catch (let e){
+                print("parse error: \(e)")
+            }
+        })
     }
 
     override func didReceiveMemoryWarning() {
@@ -238,10 +228,7 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
     }
     func parseJSON(result:[String:AnyObject]) throws ->Status{
         let status = try setStatus(Status(),result: result) as! Status
-        //guard let isRetweeted = result["retweeted"] as? Bool else { throw TimeLineError.ParseError("Parse error!") }
-        //status.isRetweeted = isRetweeted
         if result.keys.contains("retweeted_status") {
-            //guard let result2 = result as? NSDictionary else { throw TimeLineError.ParseError("Parse error!") }
             guard let retweeted_status = result["retweeted_status"] as? [String:AnyObject] else { throw TimeLineError.ParseError("Parse error!") }
             status.retweeted_status = try setStatus(RetweetStatus(), result: retweeted_status) as! RetweetStatus
         }
@@ -308,60 +295,6 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
         status.user.protected = protected
         status.date = exportFormatter.stringFromDate(inputFormatter.dateFromString(createdAt) ?? NSDate())
         return status
-    }
-    
-    func generateRequestHandler(insert:Bool,isSearch:Bool) -> SLRequestHandler {
-        let handler: SLRequestHandler = { getResponseData, urlResponse, error in
-            
-            // リクエスト送信エラー発生時
-            if let requestError = error {
-                print("Request Error: An error occurred while requesting: \(requestError)")
-                // インジケータ停止
-                ThreadAction.stopProcessing()
-                return
-            }
-            
-            // httpエラー発生時（ステータスコードが200番台以外ならエラー）
-            if urlResponse.statusCode < 200 || urlResponse.statusCode >= 300 {
-                print("HTTP Error: The response status code is \(urlResponse.statusCode)")
-                // インジケータ停止
-                ThreadAction.stopProcessing()
-                return
-            }
-            
-            // JSONシリアライズ
-            do {
-                let json = try NSJSONSerialization.JSONObjectWithData(getResponseData,options: .AllowFragments)
-                let array:[AnyObject]
-                if isSearch {
-                    let search = json as? [String:AnyObject] ?? [:]
-                    print(search)
-                    array = search["statuses"] as? [AnyObject] ?? []
-                }else{
-                    array = json as? [AnyObject] ?? []
-                }
-                let statuses = try self.parseJSON(array)
-                if insert{
-                    self.statuses.insertContentsOf(statuses,at: 0)
-                }else{
-                    self.statuses.appendContentsOf(statuses)
-                }
-                // TimeLine出力
-                //print("TimeLine Response: \(timeLineArray)")
-            } catch (let jsonError) {
-                print("JSON Error: \(jsonError)")
-                // インジケータ停止
-                ThreadAction.stopProcessing()
-                return
-            }
-            
-            ThreadAction.mainThread{
-                self.tableView.reloadData()
-            }
-            ThreadAction.stopProcessing()
-            self.loading = false
-        }
-        return handler
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -549,7 +482,7 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
     
     private func retweetAction(baseStatus:BaseStatus){
         let flag = !baseStatus.retweeted ? "un" : ""
-        self.postAction(baseStatus,api: "statuses/\(flag)retweet/\(baseStatus.id)",isPostMethod: true,params: [:]){ status,object in
+        TwitterAccess.getAction(self, status: baseStatus,api: "statuses/\(flag)retweet/\(baseStatus.id)",isPostMethod: true,params: [:]){ status,object in
             print("SUCCESS! Retweeted Favorite with ID: %@", object["id_str"] as? String ?? "")
             ThreadAction.mainThread{
                 status.retweeted = !status.retweeted
@@ -565,24 +498,23 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
     
     private func favoriteAction(baseStatus:BaseStatus){
         let flag = !baseStatus.favorited ? "create" : "destroy"
-        self.postAction(baseStatus,api: "favorites/\(flag)",isPostMethod: true,params: ["id":baseStatus.id]){ status,object in
+        TwitterAccess.getAction(self, status: baseStatus,api: "favorites/\(flag)",isPostMethod: true,params: ["id":baseStatus.id]){ status,object in
             print("SUCCESS! Favorite(\(flag)) with ID: %@", object["id_str"] as? String ?? "")
             ThreadAction.mainThread{
                 status.favorited = !status.favorited
                 self.tableView.reloadData()
             }
-            ThreadAction.stopProcessing()
         }
     }
     
     private func setDeleteAction(alertController:UIAlertController,status:BaseStatus){
         let tweetDeleteAction = UIAlertAction(title: "ツイート削除", style: .Default) { action in
-            self.postAction(status,api: "statuses/destroy/\(status.id)",isPostMethod: true,params: [:]){ status,object in
+            TwitterAccess.getAction(self, status: status,api: "statuses/destroy/\(status.id)",isPostMethod: true,params: [:]){ status,object in
                 if let index = self.statuses.indexOf({ return $0.id == status.id }) {
                     self.statuses.removeAtIndex(index)
+                    self.tableView.reloadData()
                 }
                 print("SUCCESS! Tweet Destroy with ID: %@", object["id_str"] as? String ?? "")
-                ThreadAction.stopProcessing()
             }
         }
         alertController.addAction(tweetDeleteAction)
@@ -596,54 +528,7 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
         }
         alertController.addAction(action)
     }
-    
-    private func postAction(status:BaseStatus,api:String,isPostMethod:Bool,params:[String:AnyObject],successCode:(BaseStatus,AnyObject)->()){
-        let request = TwitterAccess.generateRequest(api, isPostMethod:isPostMethod, params: params)
-        let handler: SLRequestHandler = { postResponseData, urlResponse, error in
-            // リクエスト送信エラー発生時
-            if let requestError = error {
-                print("Request Error: An error occurred while requesting: \(requestError)")
-                // インジケータ停止
-                ThreadAction.stopProcessing()
-                return
-            }
-            
-            // httpエラー発生時
-            if urlResponse.statusCode < 200 || urlResponse.statusCode >= 300 {
-                print("HTTP Error: The response status code is \(urlResponse.statusCode)")
-                //** インジケータ停止
-                ThreadAction.stopProcessing()
-                return
-            }
-            
-            // JSONシリアライズ
-            let objectFromJSON: AnyObject
-            do {
-                objectFromJSON = try NSJSONSerialization.JSONObjectWithData(
-                    postResponseData,
-                    options: NSJSONReadingOptions.MutableContainers)
-                
-                // JSONシリアライズエラー発生時
-            } catch (let jsonError) {
-                print("JSON Error: \(jsonError)")
-                //** インジケータ停止
-                ThreadAction.stopProcessing()
-                return
-            }
-            
-            successCode(status,objectFromJSON)
-        }
-        
-        //** アカウント情報セット
-        request.account = self.account
-        
-        //** インジケータ開始
-        ThreadAction.startProcessing()
-        
-        //** リクエスト実行
-        request.performRequestWithHandler(handler)
-    }
-//
+    //
 //    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
 //        return UITableViewAutomaticDimension
 //    }
