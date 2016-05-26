@@ -1,17 +1,18 @@
 //
-//  MainTimeLineTableViewController.swift
+//  FavoriteTableViewController.swift
 //  SH-TwitterClient
 //
-//  Created by guest on 2016/05/16.
+//  Created by guest on 2016/05/26.
 //  Copyright © 2016年 tmx3. All rights reserved.
 //
 
 import UIKit
 
-class MainTimeLineTableViewController: TimeLineTableViewController{
+class FavoriteTableViewController:TimeLineTableViewController{
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.api = "statuses/home_timeline"
+        self.api = "favorites/list"
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -35,10 +36,8 @@ class MainTimeLineTableViewController: TimeLineTableViewController{
         let name = isMax ? "max_id" : "since_id"
         self.timelineLoad(["count":"20",name:id],insert: !isMax )
     }
-    
-    override func userStreamRequest() {
-        super.requestTwitter()
-    }
+
+    // MARK: - Table view data source
     /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)

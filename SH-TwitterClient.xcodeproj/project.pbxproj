@@ -37,6 +37,7 @@
 		ACD99C361CEEEDA300C690BC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD99C351CEEEDA300C690BC /* User.swift */; };
 		ACD99C381CEEEFF500C690BC /* BaseStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD99C371CEEEFF500C690BC /* BaseStatus.swift */; };
 		ACD99C3A1CEEF0DB00C690BC /* RetweetStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD99C391CEEF0DB00C690BC /* RetweetStatus.swift */; };
+		ACE378471CF6D508008DD178 /* FavoriteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE378461CF6D508008DD178 /* FavoriteTableViewController.swift */; };
 		ACEC4B691CF5824D005EB43E /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = ACEC4B681CF5824D005EB43E /* Settings.bundle */; };
 		ACEC4B6B1CF583C2005EB43E /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEC4B6A1CF583C2005EB43E /* Setting.swift */; };
 /* End PBXBuildFile section */
@@ -95,6 +96,7 @@
 		ACD99C351CEEEDA300C690BC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		ACD99C371CEEEFF500C690BC /* BaseStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseStatus.swift; sourceTree = "<group>"; };
 		ACD99C391CEEF0DB00C690BC /* RetweetStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetweetStatus.swift; sourceTree = "<group>"; };
+		ACE378461CF6D508008DD178 /* FavoriteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewController.swift; sourceTree = "<group>"; };
 		ACEC4B681CF5824D005EB43E /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		ACEC4B6A1CF583C2005EB43E /* Setting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -178,6 +180,7 @@
 				ACEC4B681CF5824D005EB43E /* Settings.bundle */,
 				ACEC4B6A1CF583C2005EB43E /* Setting.swift */,
 				AC168ED11CF5F4A70034DA0A /* StatusButton.swift */,
+				ACE378461CF6D508008DD178 /* FavoriteTableViewController.swift */,
 			);
 			path = "SH-TwitterClient";
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				ACD99C361CEEEDA300C690BC /* User.swift in Sources */,
 				ACC1F3421CE9DE39003530BF /* TimeLineTableViewCell.swift in Sources */,
 				ACD99C381CEEEFF500C690BC /* BaseStatus.swift in Sources */,
+				ACE378471CF6D508008DD178 /* FavoriteTableViewController.swift in Sources */,
 				ACD99C3A1CEEF0DB00C690BC /* RetweetStatus.swift in Sources */,
 				AC6D34391CF55ADA004D3D50 /* SearchViewController.swift in Sources */,
 				ACEC4B6B1CF583C2005EB43E /* Setting.swift in Sources */,

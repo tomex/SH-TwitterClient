@@ -54,7 +54,7 @@ class TweetViewController: UIViewController,UIImagePickerControllerDelegate,UINa
         var errors = [String]()
         
         if self.images.count >= 1 {
-            let imageUrl = NSURL(string: "https://upload.twitter.com/1.1/media/upload.json")
+            let imageUrl = NSURL(string: "")
 
             let runsImage = {
                 if (errors.count + imageIds.count) >= self.images.count {

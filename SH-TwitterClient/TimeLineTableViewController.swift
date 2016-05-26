@@ -27,11 +27,15 @@ protocol TimeLineControllerProtocol:AccountProtocol{
     }
 }
 
+protocol UserStreamProtocol {
+    func userStreamRequest()
+}
+
 enum TimeLineError:ErrorType{
     case ParseError(String)
 }
 
-class TimeLineTableViewController: UITableViewController,TimeLineControllerProtocol,NSURLSessionDataDelegate,NSURLSessionTaskDelegate{
+class TimeLineTableViewController: UITableViewController,TimeLineControllerProtocol,NSURLSessionDataDelegate,NSURLSessionTaskDelegate,UserStreamProtocol{
     var api:String = ""
     var account = ACAccount()
     var statuses:[Status] = []
@@ -84,15 +88,18 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
+    func userStreamRequest() {
+        
+    }
+    
     internal func onClickUserStream(sender:UIBarButtonItem){
         if connection == nil {
-            requestTwitter()
-            sender.image = UIImage(named: "ic_network_wifi")
+            
         }else{
             connection?.cancel()
             connection = nil
-            sender.image = UIImage(named: "ic_signal_wifi_off")
         }
+        self.setUserStreamButton(sender)
     }
     
     internal func setUserStreamButton(sender:UIBarButtonItem){
@@ -172,6 +179,10 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
     
     
     func requestTwitter() {
+        if connection != nil {
+            connection?.cancel()
+            connection = nil
+        }
         let req = TwitterAccess.generateRequestFullName("https://userstream.twitter.com/1.1/user.json", isPostMethod: false, params:[:])
         req.account = self.account
         connection = session?.dataTaskWithRequest(req.preparedURLRequest())

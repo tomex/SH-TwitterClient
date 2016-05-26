@@ -45,6 +45,7 @@
                         <segue destination="2HX-mT-uzT" kind="relationship" relationship="viewControllers" id="0bj-Xw-2OW"/>
                         <segue destination="d2U-Ml-k2Z" kind="relationship" relationship="viewControllers" id="loI-Re-ssC"/>
                         <segue destination="TMD-4u-E8c" kind="relationship" relationship="viewControllers" id="HjM-I7-4Jh"/>
+                        <segue destination="Z8i-3Q-qkh" kind="relationship" relationship="viewControllers" id="KFJ-sC-Vbb"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gzv-iF-jJZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -80,6 +81,36 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fa2-1A-4WM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1099" y="447"/>
+        </scene>
+        <!--Favorite-->
+        <scene sceneID="1Bw-cR-Mdg">
+            <objects>
+                <tableViewController title="Favorite" id="Z8i-3Q-qkh" customClass="FavoriteTableViewController" customModule="SH_TwitterClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="nM9-bV-xbx">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TimeLineTableViewCell" id="BEF-KA-UsC">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BEF-KA-UsC" id="ILN-ZR-Kpd">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Z8i-3Q-qkh" id="s51-9j-57h"/>
+                            <outlet property="delegate" destination="Z8i-3Q-qkh" id="KEr-h5-DHA"/>
+                        </connections>
+                    </tableView>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <tabBarItem key="tabBarItem" title="Favorite" image="ic_favorite" id="sdw-3K-cHL"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C97-tH-jjV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="696" y="1080"/>
         </scene>
         <!--Search-->
         <scene sceneID="6AA-oT-5Es">
@@ -683,6 +714,7 @@
     </scenes>
     <resources>
         <image name="ic_account_circle" width="24" height="24"/>
+        <image name="ic_favorite" width="24" height="24"/>
         <image name="ic_message" width="24" height="24"/>
         <image name="ic_reply" width="24" height="24"/>
         <image name="ic_search" width="24" height="24"/>
