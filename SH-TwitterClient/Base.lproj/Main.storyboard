@@ -284,7 +284,7 @@
                                 </constraints>
                                 <state key="normal" title="Now Loading..."/>
                                 <connections>
-                                    <segue destination="Qqh-7S-aMc" kind="show" id="wSm-8G-MYk"/>
+                                    <action selector="onClickUrlButton:" destination="0tS-YK-W0W" eventType="touchUpInside" id="iJa-KK-QMF"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="URL:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="de5-YG-ZAe">
@@ -447,6 +447,21 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oj0-6D-EDj">
+                                <rect key="frame" x="20" y="76" width="48" height="30"/>
+                                <color key="backgroundColor" red="0.20000000000000001" green="0.59999999999999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="0zb-kB-Hzz"/>
+                                    <constraint firstAttribute="height" constant="30" id="alW-PI-Yzw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="9"/>
+                                <state key="normal" title="Follow">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onClickFollowUnfollowButton:" destination="0tS-YK-W0W" eventType="touchUpInside" id="vLA-ib-ejr"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -473,12 +488,15 @@
                             <constraint firstItem="SAd-ti-Y5Y" firstAttribute="top" secondItem="op6-Il-wPI" secondAttribute="bottom" constant="8" id="PFp-CW-DpK"/>
                             <constraint firstItem="R4X-4X-Sw7" firstAttribute="top" secondItem="idC-pu-XKD" secondAttribute="bottom" constant="8" id="QlX-od-dq9"/>
                             <constraint firstItem="de5-YG-ZAe" firstAttribute="leading" secondItem="NsM-FP-h7p" secondAttribute="leadingMargin" constant="56" id="T25-qS-yuJ"/>
+                            <constraint firstItem="oj0-6D-EDj" firstAttribute="leading" secondItem="NsM-FP-h7p" secondAttribute="leadingMargin" id="Toj-Mu-8h5"/>
+                            <constraint firstItem="8eW-xp-q8q" firstAttribute="leading" secondItem="oj0-6D-EDj" secondAttribute="trailing" constant="8" id="W33-dA-rs0"/>
                             <constraint firstItem="Yc8-U4-Uvq" firstAttribute="top" secondItem="DDf-48-SYL" secondAttribute="bottom" constant="8" id="Xcg-du-foa"/>
                             <constraint firstItem="8eW-xp-q8q" firstAttribute="leading" secondItem="NsM-FP-h7p" secondAttribute="leadingMargin" constant="56" id="XtM-gp-AAV"/>
                             <constraint firstItem="b3O-Tj-zh1" firstAttribute="trailing" secondItem="NsM-FP-h7p" secondAttribute="trailingMargin" id="YeS-Ef-J1T"/>
                             <constraint firstItem="de5-YG-ZAe" firstAttribute="top" secondItem="8eW-xp-q8q" secondAttribute="bottom" constant="12" id="ZrS-8X-3n5"/>
                             <constraint firstItem="8eW-xp-q8q" firstAttribute="top" secondItem="6nn-ft-xWl" secondAttribute="bottom" constant="8" id="aPu-cs-pke"/>
                             <constraint firstItem="vCF-Fu-Zif" firstAttribute="top" secondItem="SAd-ti-Y5Y" secondAttribute="bottom" constant="8" id="ajA-L6-m9m"/>
+                            <constraint firstItem="oj0-6D-EDj" firstAttribute="top" secondItem="RpV-D0-PEL" secondAttribute="bottom" constant="8" id="auV-yD-Z5G"/>
                             <constraint firstItem="RpV-D0-PEL" firstAttribute="top" secondItem="wS4-AY-gPr" secondAttribute="bottom" id="cQq-gU-KpO"/>
                             <constraint firstItem="op6-Il-wPI" firstAttribute="leading" secondItem="TNo-1F-9OE" secondAttribute="trailing" constant="8" id="ceX-UI-p61"/>
                             <constraint firstItem="R4X-4X-Sw7" firstAttribute="leading" secondItem="NsM-FP-h7p" secondAttribute="leadingMargin" constant="56" id="dGu-hg-ry0"/>
@@ -505,6 +523,7 @@
                         <outlet property="descriptionTextView" destination="SAd-ti-Y5Y" id="DgF-vD-L9B"/>
                         <outlet property="favoriteCountLabel" destination="op6-Il-wPI" id="FdG-D8-SGI"/>
                         <outlet property="followLabel" destination="DDf-48-SYL" id="Qht-Id-33i"/>
+                        <outlet property="followUnfollowButton" destination="oj0-6D-EDj" id="rfa-he-KK6"/>
                         <outlet property="followerLabel" destination="Yc8-U4-Uvq" id="AiT-6n-UgY"/>
                         <outlet property="idLabel" destination="b3O-Tj-zh1" id="Eee-nz-i0F"/>
                         <outlet property="locationLabel" destination="cPk-D2-KNo" id="HEu-eO-aFF"/>

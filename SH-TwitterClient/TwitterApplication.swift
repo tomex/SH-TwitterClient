@@ -10,23 +10,17 @@ import Accounts
 import Social
 
 class TwitterApplication: UIApplication {
-    //var openUrl = NSURL()
     override func openURL(url: NSURL) -> Bool {
-        //openUrl = url
-        let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let navigationController = appDelegate.navigationController
-        let webViewController = storyboard.instantiateViewControllerWithIdentifier("WebViewController")
-        let webViewControllerCast = webViewController as! WebViewController
+        let navigationController = getNavigationController()
+        let vc = getStoryBoard("WebViewController")
+        let webViewControllerCast = vc as! WebViewController
         webViewControllerCast.openUrl = url
-        navigationController.pushViewController(webViewControllerCast ?? webViewController , animated: true)
+        navigationController.pushViewController(webViewControllerCast ?? vc , animated: true)
         return true
     }
     func openUser(user: User,account:ACAccount) -> Bool {
-        let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let navigationController = appDelegate.navigationController
-        let vc = storyboard.instantiateViewControllerWithIdentifier("UserTabBarViewController")
+        let navigationController = getNavigationController()
+        let vc = getStoryBoard("UserTabBarViewController")
         let cast = vc as! UserTabBarViewController
         cast.account = account
         cast.user = user
@@ -34,16 +28,24 @@ class TwitterApplication: UIApplication {
         return true
     }
     func openSearch(query:String,account:ACAccount) -> Bool {
-        let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let navigationController = appDelegate.navigationController
-        let vc = storyboard.instantiateViewControllerWithIdentifier("SearchTableViewController")
+        let navigationController = getNavigationController()
+        let vc = getStoryBoard("SearchTableViewController")
         let cast = vc as! SearchTableViewController
         cast.query = query
         cast.account = account
         navigationController.pushViewController(cast ?? vc , animated: true)
         cast.requestTwitter()
         return true
+    }
+    
+    private func getNavigationController()->UINavigationController{
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        return appDelegate.navigationController
+    }
+    
+    private func getStoryBoard(name:String)->UIViewController{
+        let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        return storyboard.instantiateViewControllerWithIdentifier(name)
     }
     
     func openBrowser(url:NSURL)->Bool{

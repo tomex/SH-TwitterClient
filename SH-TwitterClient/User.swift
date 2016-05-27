@@ -22,4 +22,5 @@ class User{
     var profileImageUrlHttps:String = ""
     var profileImage:UIImage? = nil
     var protected:Bool = false
+    var following:Bool = false
 }
