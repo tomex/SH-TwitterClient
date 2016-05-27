@@ -122,10 +122,9 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
                         if let dic = json as? [String:AnyObject]{
                             if dic.keys.contains("friends"){
                                 if (dic["friends"] as? [Int]) != nil{
-                                    return
+                                    continue
                                 }
-                            }
-                            if dic.keys.contains("text"){
+                            }else if dic.keys.contains("text"){
                                 let status = try self.parseJSON(dic)
                                 let action = { (vc:TimeLineTableViewController) in
                                     if !vc.statuses.contains({ return $0.id == status.id }) {
@@ -143,6 +142,70 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
                                             if timeline.account.username == mention["screen_name"] ?? "" {
                                                 action(timeline)
                                                 break
+                                            }
+                                        }
+                                    }
+                                }
+                            }else if dic.keys.contains("delete"){
+                                let deleteStatusId = (dic["delete"]?["status"])?["id_str"] as? String ?? ""
+                                ThreadAction.mainThread{
+                                    while(self.statuses.contains({return $0.id == deleteStatusId})){
+                                        let i = self.statuses.indexOf({return $0.id == deleteStatusId})
+                                        if let index = i {
+                                            self.statuses.removeAtIndex(index)
+                                        }
+                                    }
+                                    self.tableView.reloadData()
+                                }
+                            }else if dic.keys.contains("event"){
+                                let myId = account.valueForKey("properties")?["user_id"] as? String ?? ""
+                                let event = dic["event"] as? String ?? ""
+                                let source = dic["source"] as? [String:AnyObject] ?? [:]
+                                let targetObject = dic["target_object"] as? [String:AnyObject] ?? [:]
+                                let sourceId = source["id_str"] as? String ?? ""
+                                let targetStatusId = targetObject["id_str"] as? String ?? ""
+                                let status = try self.parseJSON(targetObject)
+                                let action = { (vc:TimeLineTableViewController,favorite:Bool) in
+                                    ThreadAction.mainThread{
+                                        if vc.statuses.contains({return $0.id == targetStatusId}){
+                                            let i = vc.statuses.indexOf({return $0.id == targetStatusId})
+                                            if let index = i {
+                                                let statusIndex = index.advancedBy(0)
+                                                vc.statuses[statusIndex].favorited = favorite
+                                            }
+                                        }
+                                        self.tableView.reloadData()
+                                    }
+                                }
+                                if sourceId == myId{
+                                    if event == "unfavorite" {
+                                        for vc in self.tabBarViewController.viewControllers ?? [] {
+                                            if let timeline = vc as? FavoriteTableViewController {
+                                                ThreadAction.mainThread{
+                                                    if timeline.statuses.contains({return $0.id == targetStatusId}) {
+                                                        let i = timeline.statuses.indexOf({return $0.id == targetStatusId})
+                                                        if let index = i {
+                                                            timeline.statuses.removeAtIndex(index)
+                                                        }
+                                                    }
+                                                    timeline.tableView.reloadData()
+                                                }
+                                            }else if let timeline = vc as? TimeLineTableViewController {
+                                                action(timeline,false)
+                                            }
+                                        }
+                                    }else if event == "favorite"{
+                                        for vc in self.tabBarViewController.viewControllers ?? [] {
+                                            if let timeline = vc as? FavoriteTableViewController {
+                                                ThreadAction.mainThread{
+                                                    if !timeline.statuses.contains({ return $0.id == targetStatusId }) {
+                                                        status.favorited = true
+                                                        timeline.statuses.insert(status, atIndex: 0)
+                                                    }
+                                                    timeline.tableView.reloadData()
+                                                }
+                                            }else if let timeline = vc as? TimeLineTableViewController {
+                                                action(timeline,true)
                                             }
                                         }
                                     }
@@ -175,6 +238,7 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
     func requestTwitter(isMax: Bool, id: String) {
         
     }
+    
     func timelineLoad(params:[String:AnyObject]){
         self.timelineLoad(params,insert: true)
     }
@@ -198,6 +262,9 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
                 }
             }catch (let e){
                 print("parse error: \(e)")
+            }
+            ThreadAction.mainThread{
+                self.tableView.reloadData()
             }
         })
     }
@@ -226,6 +293,7 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
             return status
         }
     }
+    
     func parseJSON(result:[String:AnyObject]) throws ->Status{
         let status = try setStatus(Status(),result: result) as! Status
         if result.keys.contains("retweeted_status") {

@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		AC168ED21CF5F4A70034DA0A /* StatusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC168ED11CF5F4A70034DA0A /* StatusButton.swift */; };
+		AC3962D11CF7F06A00CB2CE2 /* BaseFollowerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3962D01CF7F06A00CB2CE2 /* BaseFollowerTableViewController.swift */; };
+		AC3962D31CF7F13D00CB2CE2 /* FollowerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3962D21CF7F13D00CB2CE2 /* FollowerTableViewCell.swift */; };
+		AC3962D51CF800BC00CB2CE2 /* FollowTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3962D41CF800BC00CB2CE2 /* FollowTableViewController.swift */; };
+		AC3962D71CF8036E00CB2CE2 /* FollowerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3962D61CF8036E00CB2CE2 /* FollowerTableViewController.swift */; };
+		AC3962DB1CF806AA00CB2CE2 /* FollowerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC3962DA1CF806AA00CB2CE2 /* FollowerTableViewCell.xib */; };
 		AC490A111CF2BD6600777677 /* UserTimeLineTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC490A101CF2BD6600777677 /* UserTimeLineTableViewController.swift */; };
 		AC490A131CF2BE2200777677 /* BaseUITabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC490A121CF2BE2200777677 /* BaseUITabBarController.swift */; };
 		AC490A151CF2C38200777677 /* UserTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC490A141CF2C38200777677 /* UserTabBarViewController.swift */; };
@@ -61,6 +66,11 @@
 
 /* Begin PBXFileReference section */
 		AC168ED11CF5F4A70034DA0A /* StatusButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusButton.swift; sourceTree = "<group>"; };
+		AC3962D01CF7F06A00CB2CE2 /* BaseFollowerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseFollowerTableViewController.swift; sourceTree = "<group>"; };
+		AC3962D21CF7F13D00CB2CE2 /* FollowerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowerTableViewCell.swift; sourceTree = "<group>"; };
+		AC3962D41CF800BC00CB2CE2 /* FollowTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowTableViewController.swift; sourceTree = "<group>"; };
+		AC3962D61CF8036E00CB2CE2 /* FollowerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowerTableViewController.swift; sourceTree = "<group>"; };
+		AC3962DA1CF806AA00CB2CE2 /* FollowerTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FollowerTableViewCell.xib; sourceTree = "<group>"; };
 		AC490A101CF2BD6600777677 /* UserTimeLineTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTimeLineTableViewController.swift; sourceTree = "<group>"; };
 		AC490A121CF2BE2200777677 /* BaseUITabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseUITabBarController.swift; sourceTree = "<group>"; };
 		AC490A141CF2C38200777677 /* UserTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTabBarViewController.swift; sourceTree = "<group>"; };
@@ -181,6 +191,11 @@
 				ACEC4B6A1CF583C2005EB43E /* Setting.swift */,
 				AC168ED11CF5F4A70034DA0A /* StatusButton.swift */,
 				ACE378461CF6D508008DD178 /* FavoriteTableViewController.swift */,
+				AC3962D21CF7F13D00CB2CE2 /* FollowerTableViewCell.swift */,
+				AC3962D01CF7F06A00CB2CE2 /* BaseFollowerTableViewController.swift */,
+				AC3962DA1CF806AA00CB2CE2 /* FollowerTableViewCell.xib */,
+				AC3962D41CF800BC00CB2CE2 /* FollowTableViewController.swift */,
+				AC3962D61CF8036E00CB2CE2 /* FollowerTableViewController.swift */,
 			);
 			path = "SH-TwitterClient";
 			sourceTree = "<group>";
@@ -311,6 +326,7 @@
 				ACC1F3441CE9DEE0003530BF /* TimeLineTableViewCell.xib in Resources */,
 				AC93DE161CE9941900EA4599 /* LaunchScreen.storyboard in Resources */,
 				ACEC4B691CF5824D005EB43E /* Settings.bundle in Resources */,
+				AC3962DB1CF806AA00CB2CE2 /* FollowerTableViewCell.xib in Resources */,
 				AC93DE131CE9941900EA4599 /* Assets.xcassets in Resources */,
 				AC93DE111CE9941900EA4599 /* Main.storyboard in Resources */,
 			);
@@ -346,12 +362,14 @@
 				AC93DE8C1CE9A61F00EA4599 /* ThreadAction.swift in Sources */,
 				AC93DE0C1CE9941900EA4599 /* AppDelegate.swift in Sources */,
 				AC168ED21CF5F4A70034DA0A /* StatusButton.swift in Sources */,
+				AC3962D71CF8036E00CB2CE2 /* FollowerTableViewController.swift in Sources */,
 				AC93DE861CE99D9300EA4599 /* TweetViewController.swift in Sources */,
 				ACD99C361CEEEDA300C690BC /* User.swift in Sources */,
 				ACC1F3421CE9DE39003530BF /* TimeLineTableViewCell.swift in Sources */,
 				ACD99C381CEEEFF500C690BC /* BaseStatus.swift in Sources */,
 				ACE378471CF6D508008DD178 /* FavoriteTableViewController.swift in Sources */,
 				ACD99C3A1CEEF0DB00C690BC /* RetweetStatus.swift in Sources */,
+				AC3962D11CF7F06A00CB2CE2 /* BaseFollowerTableViewController.swift in Sources */,
 				AC6D34391CF55ADA004D3D50 /* SearchViewController.swift in Sources */,
 				ACEC4B6B1CF583C2005EB43E /* Setting.swift in Sources */,
 				ACC1F3401CE9DAFD003530BF /* TwitterAccess.swift in Sources */,
@@ -363,6 +381,8 @@
 				AC712A2D1CF42E8C004CDF75 /* SearchTableViewController.swift in Sources */,
 				AC93DE3E1CE995DE00EA4599 /* TimeLineTableViewController.swift in Sources */,
 				AC490A111CF2BD6600777677 /* UserTimeLineTableViewController.swift in Sources */,
+				AC3962D31CF7F13D00CB2CE2 /* FollowerTableViewCell.swift in Sources */,
+				AC3962D51CF800BC00CB2CE2 /* FollowTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

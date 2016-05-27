@@ -79,7 +79,7 @@ class UserDetailViewController: UIViewController,AccountProtocol,UserTimeLinePro
                     let count = dic["statuses_count"] as? Int ?? 0
                     let follow = dic["friends_count"] as? Int ?? 0
                     let follower = dic["followers_count"] as? Int ?? 0
-                    let favorite = dic["favorite_count"] as? Int ?? 0
+                    let favorite = dic["favourites_count"] as? Int ?? 0
                     self.user.userName = name
                     self.user.screenName = screenName
                     self.user.description = text
