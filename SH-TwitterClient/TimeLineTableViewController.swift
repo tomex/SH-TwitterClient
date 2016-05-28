@@ -391,8 +391,8 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
             }
             if flag {
                 cell.retweetedTextView.hidden = false
-                cell.retweetedTextViewHeight.constant = 21
-                cell.retweetedTextView.text = "Retweeted By @\(status.user.screenName), Date: \(status.date)"
+                cell.retweetedTextViewHeight.constant = 35
+                cell.retweetedTextView.text = "Retweeted By @\(status.user.screenName)\nDate: \(status.date)"
                 cell.dateLabel.text = "Source Date: \(baseStatus.date)"
             } else {
                 cell.retweetedTextView.hidden = true
