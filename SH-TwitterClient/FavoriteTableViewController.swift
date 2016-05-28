@@ -8,8 +8,8 @@
 
 import UIKit
 
-class FavoriteTableViewController:TimeLineTableViewController{
-
+class FavoriteTableViewController:TimeLineTableViewController,UserTimeLineProtocol{
+    var user: User = User()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.api = "favorites/list"
@@ -28,12 +28,24 @@ class FavoriteTableViewController:TimeLineTableViewController{
     override func requestTwitter(){
         self.statuses.removeAll()
         self.tableView.reloadData()
-        self.timelineLoad(["count":"20"])
+        let params:[String:String]
+        if user.id != ""{
+            params = ["count":"20","user_id":user.id]
+        }else{
+            params = ["count":"20"]
+        }
+        self.timelineLoad(params)
     }
     
     override func requestTwitter(isMax:Bool,id:String){
         let name = isMax ? "max_id" : "since_id"
-        self.timelineLoad(["count":"20",name:id],insert: !isMax )
+        let params:[String:String]
+        if user.id != ""{
+            params = ["count":"20",name:id,"user_id":user.id]
+        }else{
+            params = ["count":"20",name:id]
+        }
+        self.timelineLoad(params,insert: !isMax )
     }
 
     // MARK: - Table view data source

@@ -92,7 +92,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TimeLineTableViewCell" id="BEF-KA-UsC">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BEF-KA-UsC" id="ILN-ZR-Kpd">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -640,11 +640,12 @@
                         <segue destination="UFU-IS-4Kx" kind="relationship" relationship="viewControllers" id="fKt-G0-XXF"/>
                         <segue destination="z2z-RL-okf" kind="relationship" relationship="viewControllers" id="VEE-ab-qJ2"/>
                         <segue destination="z70-F1-UZJ" kind="relationship" relationship="viewControllers" id="FF7-OX-KUC"/>
+                        <segue destination="Z8i-3Q-qkh" kind="relationship" relationship="viewControllers" id="cYY-AU-0r1"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dq8-fh-J4G" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1167" y="-579"/>
+            <point key="canvasLocation" x="1215" y="-615"/>
         </scene>
         <!--UserTimeLine-->
         <scene sceneID="eGg-P5-EC6">
@@ -811,7 +812,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RI4-fK-4ik" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2333" y="715"/>
+            <point key="canvasLocation" x="2453" y="879"/>
         </scene>
     </scenes>
     <resources>
@@ -825,4 +826,7 @@
         <image name="ic_signal_wifi_off" width="24" height="24"/>
         <image name="ic_view_list" width="24" height="24"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="cYY-AU-0r1"/>
+    </inferredMetricsTieBreakers>
 </document>
