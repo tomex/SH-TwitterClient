@@ -149,8 +149,14 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
                             }else if dic.keys.contains("delete"){
                                 let deleteStatusId = (dic["delete"]?["status"])?["id_str"] as? String ?? ""
                                 ThreadAction.mainThread{
-                                    if self.statuses.contains({return $0.id == deleteStatusId}){
+                                    while(self.statuses.contains({return $0.id == deleteStatusId})){
                                         let i = self.statuses.indexOf({return $0.id == deleteStatusId})
+                                        if let index = i {
+                                            self.statuses.removeAtIndex(index)
+                                        }
+                                    }
+                                    while(self.statuses.contains({return $0.retweeted_status.id == deleteStatusId})){
+                                        let i = self.statuses.indexOf({return $0.retweeted_status.id == deleteStatusId})
                                         if let index = i {
                                             self.statuses.removeAtIndex(index)
                                         }
