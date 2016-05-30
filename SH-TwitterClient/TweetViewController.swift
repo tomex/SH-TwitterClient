@@ -148,6 +148,7 @@ class TweetViewController: UIViewController,UIImagePickerControllerDelegate,UINa
             }else{
                 subView.hidden = false
                 subView.setImage(images[i], forState: .Normal)
+                subView.imageView?.contentMode = .ScaleAspectFit
             }
         }
         if images.count >= 4 {
