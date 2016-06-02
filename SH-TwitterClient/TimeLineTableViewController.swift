@@ -313,6 +313,7 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
         guard let text = result["text"] as? String else { throw TimeLineError.ParseError("Parse error!") }
         guard let id = result["id_str"] as? String else { throw TimeLineError.ParseError("Parse error!") }
         guard let createdAt = result["created_at"] as? String else { throw TimeLineError.ParseError("Parse error!") }
+        guard let source = result["source"] as? String else { throw TimeLineError.ParseError("Parse error!") }
         guard let favorited = result["favorited"] as? Bool else { throw TimeLineError.ParseError("Parse error!") }
         guard let retweeted = result["retweeted"] as? Bool else { throw TimeLineError.ParseError("Parse error!") }
         guard let user = result["user"] as? NSDictionary else { throw TimeLineError.ParseError("Parse error!") }
@@ -358,10 +359,20 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
         guard let userId = user["id_str"] as? String else { throw TimeLineError.ParseError("Parse error!") }
         guard let profileImageUrlHttps = user["profile_image_url_https"] as? String else { throw TimeLineError.ParseError("Parse error!") }
         guard let protected = user["protected"] as? Bool else { throw TimeLineError.ParseError("Parse error!") }
+        let regex: NSRegularExpression?
+        do {
+            let pattern = "<a .*?>(.+?)<.a>"
+            regex = try NSRegularExpression(pattern: pattern, options: [NSRegularExpressionOptions.CaseInsensitive])
+        } catch let error as NSError {
+            regex = nil
+            print(error)
+        }
         status.id = id
         status.text = text
         status.favorited = favorited
         status.retweeted = retweeted
+        let a = "$1"
+        status.source = regex?.stringByReplacingMatchesInString(source, options: [], range: NSMakeRange(0, source.characters.count), withTemplate: a) ?? source
         status.user.id = userId
         status.user.screenName = screenName
         status.user.userName = userName
@@ -399,11 +410,11 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
                 cell.retweetedTextView.hidden = false
                 cell.retweetedTextViewHeight.constant = 35
                 cell.retweetedTextView.text = "Retweeted By @\(status.user.screenName)\nDate: \(status.date)"
-                cell.dateLabel.text = "Source Date: \(baseStatus.date)"
+                cell.dateLabel.text = "Source Date: \(baseStatus.date)\nvia \(baseStatus.source)"
             } else {
                 cell.retweetedTextView.hidden = true
                 cell.retweetedTextViewHeight.constant = 0
-                cell.dateLabel.text = "Tweet Date: \(baseStatus.date)"
+                cell.dateLabel.text = "Tweet Date: \(baseStatus.date)\nvia \(baseStatus.source)"
             }
             ThreadAction.subThread{
                 let profileImage = baseStatus.user.profileImageUrlHttps

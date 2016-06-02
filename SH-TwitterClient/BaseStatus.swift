@@ -19,4 +19,5 @@ class BaseStatus {
     var date:String = ""
     var favorited:Bool = false
     var retweeted:Bool = false
+    var source:String = ""
 }

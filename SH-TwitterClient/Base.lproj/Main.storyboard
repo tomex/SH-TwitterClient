@@ -92,7 +92,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TimeLineTableViewCell" id="BEF-KA-UsC">
-                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BEF-KA-UsC" id="ILN-ZR-Kpd">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -827,6 +827,6 @@
         <image name="ic_view_list" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="cYY-AU-0r1"/>
+        <segue reference="KFJ-sC-Vbb"/>
     </inferredMetricsTieBreakers>
 </document>
