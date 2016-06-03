@@ -392,19 +392,26 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
             cell.profileImageView.image = UIImage(named: "ic_autorenew")
             cell.nameLabel.text = "@\(baseStatus.user.screenName)"
             cell.tweetTextView.text = baseStatus.text
-            cell.retweetButton.setTitleColor(baseStatus.retweeted ? UIColor(red: 0.0,green: 128.0 / 255.0,blue: 0.0,alpha: 1.0 ) : UIColor.blackColor(), forState: .Normal)
-            cell.favoriteButton.setTitleColor(baseStatus.favorited ? UIColor(red: 255.0 / 255.0 , green: 152.0 / 255.0 , blue: 0.0, alpha: 1.0) : UIColor.blackColor(), forState: .Normal)
-            cell.favoriteButton.setImage(baseStatus.favorited ? UIImage(named: "ic_favorite") : UIImage(named: "ic_favorite_border") , forState: .Normal)
+            cell.retweetButton.setImage(baseStatus.retweeted ? UIImage(named: "ic_autorenew_white") : UIImage(named: "ic_autorenew_gray") , forState: .Normal)
+            cell.retweetButton.backgroundColor = baseStatus.retweeted ? UIColor(red: 0.0,green: 128.0 / 255.0,blue: 0.0,alpha: 1.0 ) : UIColor.whiteColor()
+            cell.favoriteButton.setImage(baseStatus.favorited ? UIImage(named: "ic_favorite_white") : UIImage(named: "ic_favorite_gray") , forState: .Normal)
+            cell.favoriteButton.backgroundColor = baseStatus.favorited ? UIColor(red: 233/255, green: 30/255, blue: 99/255, alpha: 1.0) : UIColor.whiteColor()
             cell.favoriteButton.status =  baseStatus
             cell.retweetButton.status = baseStatus
+            cell.replyButton.status = status
+            cell.tweetDeleteButton.status = baseStatus
             cell.favoriteButton.addTarget(self, action: #selector(TimeLineTableViewController.favoriteButtonAction), forControlEvents: .TouchUpInside)
             cell.retweetButton.addTarget(self, action: #selector(TimeLineTableViewController.retweetButtonAction), forControlEvents: .TouchUpInside)
+            cell.tweetDeleteButton.addTarget(self, action: #selector(TimeLineTableViewController.tweetDeleteButtonAction), forControlEvents: .TouchUpInside)
+            cell.replyButton.addTarget(self, action: #selector(TimeLineTableViewController.replyButtonAction), forControlEvents: .TouchUpInside)
             if baseStatus.user.protected {
                 cell.protectedImage.hidden = false
                 cell.protectedImageWidth.constant = 24
+                cell.retweetButton.hidden = true
             }else{
                 cell.protectedImage.hidden = true
                 cell.protectedImageWidth.constant = 0
+                cell.retweetButton.hidden = false
             }
             if flag {
                 cell.retweetedTextView.hidden = false
@@ -415,6 +422,12 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
                 cell.retweetedTextView.hidden = true
                 cell.retweetedTextViewHeight.constant = 0
                 cell.dateLabel.text = "Tweet Date: \(baseStatus.date)\nvia \(baseStatus.source)"
+            }
+            let myId = account.valueForKey("properties")?["user_id"] as? String ?? ""
+            if myId == baseStatus.user.id {
+                cell.tweetDeleteButtonConstraint.constant = 30
+            }else{
+                cell.tweetDeleteButtonConstraint.constant = 0
             }
             ThreadAction.subThread{
                 let profileImage = baseStatus.user.profileImageUrlHttps
@@ -456,10 +469,7 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
         //alertController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.Up
         
         let replyAction = UIAlertAction(title: "リプライ", style: .Default) { action in
-            if let tabViewController = self.parentViewController as? MainTabBarViewController{
-                let screenName = status.retweeted_status.id != "" ? status.retweeted_status.user.screenName : status.user.screenName
-                tabViewController.tweetChange("@\(screenName) ", replyToId: status.id)
-            }
+            self.replyAction(status)
         }
         alertController.addAction(replyAction)
         
@@ -592,8 +602,16 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
         }
     }
     
-    private func setDeleteAction(alertController:UIAlertController,status:BaseStatus){
-        let tweetDeleteAction = UIAlertAction(title: "ツイート削除", style: .Default) { action in
+    internal func tweetDeleteButtonAction(sender:StatusButton){
+        let status = sender.status
+        tweetDeleteAction(status)
+    }
+    
+    private func tweetDeleteAction(status:BaseStatus){
+        let alertController = UIAlertController(title: "ツイート削除", message: "ツイート削除しますか？", preferredStyle: .Alert)
+        alertController.popoverPresentationController?.sourceView = self.view
+        alertController.popoverPresentationController?.sourceRect = CGRectMake(self.view.bounds.size.width / 2,self.view.frame.origin.y, 0.0, 0.0)
+        alertController.addAction(UIAlertAction(title: "削除", style: .Destructive, handler: { action in
             TwitterAccess.getAction(self, status: status,api: "statuses/destroy/\(status.id)",isPostMethod: true,params: [:]){ status,object in
                 if let index = self.statuses.indexOf({ return $0.id == status.id }) {
                     self.statuses.removeAtIndex(index)
@@ -601,8 +619,16 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
                 }
                 print("SUCCESS! Tweet Destroy with ID: %@", object["id_str"] as? String ?? "")
             }
+        }))
+        alertController.addAction(UIAlertAction(title: "キャンセル", style: .Cancel, handler: nil))
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    private func setDeleteAction(alertController:UIAlertController,status:BaseStatus){
+        let action = UIAlertAction(title: "ツイート削除", style: .Default) { action in
+            self.tweetDeleteAction(status)
         }
-        alertController.addAction(tweetDeleteAction)
+        alertController.addAction(action)
     }
     
     private func setUserAction(alertController:UIAlertController,user:User){
@@ -612,6 +638,19 @@ class TimeLineTableViewController: UITableViewController,TimeLineControllerProto
             }
         }
         alertController.addAction(action)
+    }
+    
+    internal func replyButtonAction(sender:StatusButton){
+        if let status = sender.status as? Status{
+            replyAction(status)
+        }
+    }
+    
+    private func replyAction(status:Status){
+        if let tabViewController = self.parentViewController as? MainTabBarViewController{
+            let screenName = status.retweeted_status.id != "" ? status.retweeted_status.user.screenName : status.user.screenName
+            tabViewController.tweetChange("@\(screenName) ", replyToId: status.id)
+        }
     }
     //
 //    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

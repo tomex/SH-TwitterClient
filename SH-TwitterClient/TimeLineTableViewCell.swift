@@ -12,14 +12,18 @@ class TimeLineTableViewCell: UITableViewCell {
     
     @IBOutlet weak var protectedImage: UIImageView!
     @IBOutlet weak var protectedImageWidth: NSLayoutConstraint!
+    @IBOutlet weak var replyButton: StatusButton!
     @IBOutlet weak var favoriteButton: StatusButton!
     @IBOutlet weak var retweetButton: StatusButton!
+    @IBOutlet weak var tweetDeleteButton: StatusButton!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var tweetTextView: UILabel!
     @IBOutlet weak var retweetedTextView: UILabel!
     @IBOutlet weak var retweetedTextViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var tweetDeleteButtonConstraint: NSLayoutConstraint!
+    @IBOutlet weak var stackView: UIStackView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

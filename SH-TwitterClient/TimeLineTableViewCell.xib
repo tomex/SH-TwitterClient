@@ -28,36 +28,6 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gtL-eq-LbS">
-                        <rect key="frame" x="64" y="161" width="248" height="30"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ELX-E7-REu" customClass="StatusButton" customModule="SH_TwitterClient" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="124" height="30"/>
-                                <state key="normal" title="Favorite" image="ic_favorite_border">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wp2-lp-Do3" customClass="StatusButton" customModule="SH_TwitterClient" customModuleProvider="target">
-                                <rect key="frame" x="124" y="0.0" width="124" height="30"/>
-                                <state key="normal" title="Retweet" image="ic_autorenew">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="wp2-lp-Do3" firstAttribute="top" secondItem="gtL-eq-LbS" secondAttribute="top" id="8fl-s9-v8O"/>
-                            <constraint firstItem="wp2-lp-Do3" firstAttribute="width" secondItem="ELX-E7-REu" secondAttribute="width" id="Azz-LX-SWF"/>
-                            <constraint firstItem="ELX-E7-REu" firstAttribute="leading" secondItem="gtL-eq-LbS" secondAttribute="leading" id="PaS-vM-9D7"/>
-                            <constraint firstAttribute="bottom" secondItem="wp2-lp-Do3" secondAttribute="bottom" id="ZqS-gP-381"/>
-                            <constraint firstItem="wp2-lp-Do3" firstAttribute="leading" secondItem="ELX-E7-REu" secondAttribute="trailing" id="ghR-dv-3Xg"/>
-                            <constraint firstItem="wp2-lp-Do3" firstAttribute="width" secondItem="ELX-E7-REu" secondAttribute="width" id="jHR-O5-Xjb"/>
-                            <constraint firstItem="ELX-E7-REu" firstAttribute="top" secondItem="gtL-eq-LbS" secondAttribute="top" id="kRZ-C2-7bT"/>
-                            <constraint firstAttribute="bottom" secondItem="ELX-E7-REu" secondAttribute="bottom" id="vD1-Tn-qry"/>
-                            <constraint firstAttribute="height" constant="30" id="wKK-Ty-tfz"/>
-                            <constraint firstAttribute="trailing" secondItem="wp2-lp-Do3" secondAttribute="trailing" id="yYQ-Sy-OXY"/>
-                        </constraints>
-                    </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_lock_outline" translatesAutoresizingMaskIntoConstraints="NO" id="6r3-ov-YET">
                         <rect key="frame" x="64" y="8" width="24" height="24"/>
                         <constraints>
@@ -92,6 +62,110 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gtL-eq-LbS">
+                        <rect key="frame" x="64" y="161" width="248" height="30"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wWd-1O-k6K">
+                                <rect key="frame" x="0.0" y="0.0" width="218" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WDi-fF-w59" customClass="StatusButton" customModule="SH_TwitterClient" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="73" height="30"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="ic_reply_gray"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wp2-lp-Do3" customClass="StatusButton" customModule="SH_TwitterClient" customModuleProvider="target">
+                                        <rect key="frame" x="73" y="0.0" width="72" height="30"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="ic_autorenew_gray">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ELX-E7-REu" customClass="StatusButton" customModule="SH_TwitterClient" customModuleProvider="target">
+                                        <rect key="frame" x="145" y="0.0" width="73" height="30"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="ic_favorite_gray">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="wp2-lp-Do3" secondAttribute="bottom" id="0qB-3w-XLw"/>
+                                    <constraint firstItem="wp2-lp-Do3" firstAttribute="width" secondItem="WDi-fF-w59" secondAttribute="width" id="Cb9-gs-XOS"/>
+                                    <constraint firstAttribute="bottom" secondItem="ELX-E7-REu" secondAttribute="bottom" id="INr-0U-3l4"/>
+                                    <constraint firstItem="wp2-lp-Do3" firstAttribute="leading" secondItem="WDi-fF-w59" secondAttribute="trailing" id="MIB-PI-QjL"/>
+                                    <constraint firstItem="wp2-lp-Do3" firstAttribute="top" secondItem="wWd-1O-k6K" secondAttribute="top" id="OU3-pa-ZwW"/>
+                                    <constraint firstItem="ELX-E7-REu" firstAttribute="leading" secondItem="wp2-lp-Do3" secondAttribute="trailing" id="RoX-ah-tdL"/>
+                                    <constraint firstAttribute="trailing" secondItem="ELX-E7-REu" secondAttribute="trailing" id="YD9-B7-wB2"/>
+                                    <constraint firstItem="wp2-lp-Do3" firstAttribute="leading" secondItem="WDi-fF-w59" secondAttribute="trailing" id="YXW-OJ-dzw"/>
+                                    <constraint firstItem="WDi-fF-w59" firstAttribute="leading" secondItem="wWd-1O-k6K" secondAttribute="leading" id="bzz-0o-2dI"/>
+                                    <constraint firstItem="WDi-fF-w59" firstAttribute="top" secondItem="wWd-1O-k6K" secondAttribute="top" id="dFb-kV-AkC"/>
+                                    <constraint firstItem="ELX-E7-REu" firstAttribute="width" secondItem="WDi-fF-w59" secondAttribute="width" id="tZn-nP-wKg"/>
+                                    <constraint firstItem="WDi-fF-w59" firstAttribute="leading" secondItem="wWd-1O-k6K" secondAttribute="leading" id="xrY-rU-QWs"/>
+                                    <constraint firstAttribute="bottom" secondItem="WDi-fF-w59" secondAttribute="bottom" id="y8a-0Q-kTI"/>
+                                    <constraint firstItem="ELX-E7-REu" firstAttribute="top" secondItem="wWd-1O-k6K" secondAttribute="top" id="zvS-ls-0AC"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="bzz-0o-2dI"/>
+                                        <exclude reference="MIB-PI-QjL"/>
+                                        <exclude reference="YXW-OJ-dzw"/>
+                                        <exclude reference="RoX-ah-tdL"/>
+                                    </mask>
+                                </variation>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gEH-SZ-Irm" customClass="StatusButton" customModule="SH_TwitterClient" customModuleProvider="target">
+                                <rect key="frame" x="218" y="0.0" width="30" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="NM8-dU-ouy"/>
+                                    <constraint firstAttribute="height" constant="30" id="jKp-4g-NRX"/>
+                                </constraints>
+                                <state key="normal" image="ic_delete_white"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gEH-SZ-Irm" firstAttribute="top" secondItem="gtL-eq-LbS" secondAttribute="top" id="F3j-70-gRm"/>
+                            <constraint firstAttribute="bottom" secondItem="wWd-1O-k6K" secondAttribute="bottom" id="KbO-jK-wrM"/>
+                            <constraint firstAttribute="bottom" secondItem="gEH-SZ-Irm" secondAttribute="bottom" id="LsU-PS-AUk"/>
+                            <constraint firstItem="wWd-1O-k6K" firstAttribute="leading" secondItem="gtL-eq-LbS" secondAttribute="leading" id="Ut6-Sv-FR3"/>
+                            <constraint firstItem="wWd-1O-k6K" firstAttribute="leading" secondItem="gtL-eq-LbS" secondAttribute="leading" id="VWA-0Q-mWm"/>
+                            <constraint firstItem="gEH-SZ-Irm" firstAttribute="leading" secondItem="wWd-1O-k6K" secondAttribute="trailing" id="Xst-58-bFn"/>
+                            <constraint firstItem="wWd-1O-k6K" firstAttribute="top" secondItem="gtL-eq-LbS" secondAttribute="top" id="b7g-Z9-qEP"/>
+                            <constraint firstItem="wWd-1O-k6K" firstAttribute="top" secondItem="gtL-eq-LbS" secondAttribute="top" id="dlm-Pe-yVM"/>
+                            <constraint firstItem="wWd-1O-k6K" firstAttribute="leading" secondItem="gtL-eq-LbS" secondAttribute="leading" id="fCb-M3-zCU"/>
+                            <constraint firstAttribute="height" constant="30" id="wKK-Ty-tfz"/>
+                            <constraint firstAttribute="bottom" secondItem="wWd-1O-k6K" secondAttribute="bottom" id="yiK-m4-rDO"/>
+                            <constraint firstAttribute="trailing" secondItem="gEH-SZ-Irm" secondAttribute="trailing" id="ykW-bp-jfD"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="wmG-Eg-dMP" firstAttribute="top" secondItem="PEa-Tc-0l9" secondAttribute="bottom" constant="8" id="4bC-yU-3KD"/>
@@ -123,17 +197,23 @@
                 <outlet property="profileImageView" destination="Wg4-jg-5IS" id="swi-eU-hvM"/>
                 <outlet property="protectedImage" destination="6r3-ov-YET" id="Mgb-J5-jhu"/>
                 <outlet property="protectedImageWidth" destination="Psd-eO-Kf7" id="ZGM-Q5-YNb"/>
+                <outlet property="replyButton" destination="WDi-fF-w59" id="DBu-As-8MO"/>
                 <outlet property="retweetButton" destination="wp2-lp-Do3" id="1qr-eS-x56"/>
                 <outlet property="retweetedTextView" destination="PEa-Tc-0l9" id="tIa-Gh-fAj"/>
                 <outlet property="retweetedTextViewHeight" destination="cPa-e3-97J" id="UkT-LT-aEh"/>
+                <outlet property="stackView" destination="wWd-1O-k6K" id="vns-pT-46M"/>
+                <outlet property="tweetDeleteButton" destination="gEH-SZ-Irm" id="oUP-b7-5Ol"/>
+                <outlet property="tweetDeleteButtonConstraint" destination="NM8-dU-ouy" id="hL9-bL-GGr"/>
                 <outlet property="tweetTextView" destination="Eqf-VC-abc" id="ARd-XC-bCh"/>
             </connections>
             <point key="canvasLocation" x="435" y="423"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_autorenew" width="24" height="24"/>
-        <image name="ic_favorite_border" width="24" height="24"/>
+        <image name="ic_autorenew_gray" width="24" height="24"/>
+        <image name="ic_delete_white" width="24" height="24"/>
+        <image name="ic_favorite_gray" width="24" height="24"/>
         <image name="ic_lock_outline" width="24" height="24"/>
+        <image name="ic_reply_gray" width="24" height="24"/>
     </resources>
 </document>
